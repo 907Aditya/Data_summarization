@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Summarization</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+        }
+
+        .btn {
+            transition: all 0.3s ease;
+            border: 1px solid #ccc;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #e2e8f0;
+        }
+
+        .header {
+            background-color: #4a5568;
+            color: #fff;
+            padding: 12px 24px;
+            text-align: center;
+        }
+
+        .form-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 16px;
+            resize: vertical;
+        }
+    </style>
+</head>
+<body>
+
+<header class="header mb-4">
+    <h1>Data Summarization</h1>
+</header>
+
+<section class="flex flex-wrap justify-center items-center">
+    <div class="w-full md:w-1/2 px-4">
+        <div class="form-container">
+            <form action="{{url_for('Summarize')}}" method="post">
+                <textarea name="data" id="data" placeholder="Enter your Data" required></textarea>
+                <div class="flex items-center mb-4">
+                    <label for="maxL" class="mr-2">Summary Length:</label>
+                    <input type="range" class="mr-2" min="20" max="1000" name="maxL">
+                </div>
+                <div class="flex justify-center">
+                    <button class="btn" type="submit" onclick="Check()">Submit</button>
+                    <button class="btn ml-2" type="reset">Clear</button>
+                    <button class="btn ml-2" type="button" onclick="myFunction()">Copy text</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="w-full md:w-1/2 px-4">
+        <div class="form-container">
+            <textarea rows="10" name="result" readonly placeholder="Your Summary">{{result}}</textarea>
+        </div>
+    </div>
+</section>
+
+<script>
+    function myFunction() {
+        var copyText = document.getElementById("data");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+        alert("Copied the text: " + copyText.value);
+    }
+</script>
+<script>
+    function Check() {
+        var reg = /<(.|\n)*>/g;
+        if (reg.test(document.getElementById("data").value)) {
+            var ErrorText = 'Make Sure You Provide Valid Data.';
+            alert(ErrorText);
+        }
+    }
+</script>
+</body>
+</html>
